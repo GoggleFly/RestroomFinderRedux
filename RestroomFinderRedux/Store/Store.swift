@@ -14,7 +14,11 @@ typealias Dispatcher = (Action) -> Void
 protocol ReduxState { }
 
 struct AppState: ReduxState {
-    // to do
+    var restrooms: RestroomState = RestroomState()
+}
+
+struct RestroomState: ReduxState {
+    var restrooms: [Restroom] = []
 }
 
 class Store<StoreState: ReduxState>: ObservableObject {

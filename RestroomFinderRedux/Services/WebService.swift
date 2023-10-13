@@ -12,45 +12,24 @@ enum NetworkError: Error {
 }
 
 class WebService {
-//    func getMoviesBy(search: String, completion: @escaping (Result<[Movie]?, NetworkError>) -> Void) {
-//        guard let moviesURL = URL(string: Constants.Urls.urlBySearch(search: search)) else {
-//            completion(.failure(.badURL))
-//            return
-//        }
-//        
-//        URLSession.shared.dataTask(with: moviesURL) { data, response, error in
-//            guard let data = data, error == nil else {
-//                completion(.failure(.noData))
-//                return
-//            }
-//            
-//            let movieResponse = try? JSONDecoder().decode(MovieResponse.self, from: data)
-//            if let movieResponse = movieResponse {
-//                completion(.success(movieResponse.movies))
-//            } else {
-//                completion(.failure(.decodingError))
-//            }
-//        }.resume()
-//    }
-//    
-//    func getMovieDetailsBy(imdbId: String, completion: @escaping (Result<MovieDetail?, NetworkError>) -> Void) {
-//        guard let movieURL = URL(string: Constants.Urls.urlForMovieDetailsByImdbId(imdbId: imdbId)) else {
-//            completion(.failure(.badURL))
-//            return
-//        }
-//        
-//        URLSession.shared.dataTask(with: movieURL) { data, response, error in
-//            guard let data = data, error == nil else {
-//                completion(.failure(.noData))
-//                return
-//            }
-//            
-//            let movieDetail = try? JSONDecoder().decode(MovieDetail.self, from: data)
-//            if let movieDetail = movieDetail {
-//                completion(.success(movieDetail))
-//            } else {
-//                completion(.failure(.decodingError))
-//            }
-//        }.resume()
-//    }
+    
+    func getRestroomsByLatAndLng(lat: Double, lng: Double, completion: @escaping (Result<[Restroom]?, NetworkError>) -> Void) {
+        print(Constants.Urls.restroomsByLatAndLng(lat: lat, lng: lng))
+        
+        guard let resourceURL = URL(string: Constants.Urls.restroomsByLatAndLng(lat: lat, lng: lng)) else {
+            completion(.failure(.badURL))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: resourceURL) { data, response, error in
+            guard let data = data, error == nil else {
+                completion(.failure(.noData))
+                return
+            }
+            
+            let restrooms = try? JSONDecoder().decode([Restroom].self, from: data)
+            completion(.success(restrooms))
+        }.resume()
+    }
+    
 }
